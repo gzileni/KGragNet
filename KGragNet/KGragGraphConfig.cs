@@ -4,8 +4,8 @@
     {
         public string Host { get; set; } = "localhost";
         public int Port { get; set; } = 7687;
-        public string User { get; set; } = "neo4j";
-        public string Password { get; set; } = "password";
+        public string? User { get; set; } = "neo4j";
+        public string? Password { get; set; } = "password";
         public string Name { get; set; } = "neo4j";
 
         public string Uri => $"neo4j://{Host}:{Port}";
@@ -23,15 +23,11 @@
             Port = port;
         }
 
-        public KGragGraphConfig(string host, int port, string user, string password) : this(host, port)
+        public KGragGraphConfig(string host, int port, string user = null, string password = null, string name = null) : this(host, port)
         {
-            User = user;
-            Password = password;
-        }
-
-        public KGragGraphConfig(string host, int port, string user, string password, string name) : this(host, port, user, password)
-        {
-            Name = name;
+            User = user ?? "neo4j";
+            Password = password ?? "password";
+            Name = name ?? "neo4j";
         }
     }
 }

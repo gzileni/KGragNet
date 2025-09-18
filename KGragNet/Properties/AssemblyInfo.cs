@@ -1,16 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
-// Le informazioni generali relative a un assembly sono controllate dal seguente 
-// set di attributi. Modificare i valori di questi attributi per modificare le informazioni
-// associate a un assembly.
-[assembly: AssemblyTitle("KGragNet")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("KGragNet")]
-[assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,13 +11,3 @@ using System.Runtime.InteropServices;
 
 // Se il progetto viene esposto a COM, il GUID seguente verrà utilizzato come ID della libreria dei tipi
 [assembly: Guid("7909227d-7853-4bc2-b9a8-0c8658cdc8db")]
-
-// Le informazioni sulla versione di un assembly sono costituite dai seguenti quattro valori:
-//
-//      Versione principale
-//      Versione secondaria
-//      Numero di build
-//      Revisione
-//
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

@@ -58,5 +58,16 @@ namespace KGragNet
          *  collectionName (string): The name of the collection to delete.
          */
         Task DeleteCollection(string collectionName);
+
+        /*
+         * Search performs a vector similarity search in the specified collection.
+         * Args:
+         *  collectionName (string): The name of the collection to search.
+         *  vector (float[]): The query vector.
+         *  limit (ulong): The maximum number of results to return. Default is 3.
+         * Returns:
+         *  IReadOnlyList<ScoredPoint>: A list of scored points representing the most similar points to the query vector.
+         */
+        Task<IReadOnlyList<ScoredPoint>> Search(string collectionName, float[] vector, ulong limit = 3);
     }
 }

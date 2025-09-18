@@ -10,8 +10,6 @@ namespace KGragNet
     /*
      * KGragGraphConfig holds the configuration details for connecting to a graph database.
      */
-    
-
     public class KGragGraph : IKragGraph
     {
         private IDriver driver;
@@ -65,44 +63,72 @@ namespace KGragNet
 
         }
 
-        public async Task<IResultSummary> Create(string query, object parameters = null)
+        private async Task<EagerResult<IReadOnlyList<IRecord>>> Run(string query, object parameters = null)
         {
-            var e = driver.ExecutableQuery(query);
-
-            if (parameters != null)
-                e = e.WithParameters(parameters);
-
-            if (!string.IsNullOrEmpty(this.dbName))
+            try
             {
-                var q = new QueryConfig(database: this.DbName);
-                e = e.WithConfig(q);
+                var e = driver.ExecutableQuery(query);
+
+                if (parameters != null)
+                    e = e.WithParameters(parameters);
+
+                if (!string.IsNullOrEmpty(this.dbName))
+                {
+                    var q = new QueryConfig(database: this.DbName);
+                    e = e.WithConfig(q);
+                }
+
+                // Execute the query and get the result summary
+                return await e.ExecuteAsync();
+
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"Error preparing to run query: {ex.Message}");
+                throw;
             }
-
-            // Execute the query and get the result summary
-            var result = await e.ExecuteAsync();
-
-            // Summary information
-            var summary = result.Summary;
-            Console.WriteLine($"Created {summary.Counters.NodesCreated} nodes in {summary.ResultAvailableAfter.Milliseconds} ms.");
-            return summary;
+            
         }
 
-        public async Task<IReadOnlyList<IRecord>> Query(string query)
+        public async Task<IResultSummary> Create(string query, object parameters = null)
         {
-            // Prepare the executable query
-            var e = this.driver.ExecutableQuery(query);
-
-            if (!string.IsNullOrEmpty(this.dbName))
+            try
             {
-                var q = new QueryConfig(database: this.DbName);
-                e = e.WithConfig(q);
+                // Execute the query and get the result summary
+                var result = await Run(query, parameters);
+
+                Console.WriteLine($"Created {result.Summary.Counters.NodesCreated} nodes in {result.Summary.ResultAvailableAfter.Milliseconds} ms.");
+
+                // Summary information
+                return result.Summary;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error preparing to create: {ex.Message}");
+                throw;
             }
 
-            // Execute the query and get the result
-            var result = await e.ExecuteAsync();
-            return result.Result;
+        }
+
+        public async Task<IReadOnlyList<IRecord>> Query(string query, object parameters = null)
+        {
+            try
+            {
+                // Execute the query and get the result summary
+                var result = await Run(query, parameters);
+
+                Console.WriteLine($"Created {result.Summary.Counters.NodesCreated} nodes in {result.Summary.ResultAvailableAfter.Milliseconds} ms.");
+
+                // Summary information
+                return result.Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error preparing to create: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task Close() => await this.driver.DisposeAsync();
+
     }
 }

@@ -45,10 +45,17 @@ namespace KGragNet
                 Distance = distance
             };
             await this.qdrantClient.CreateCollectionAsync(collectionName, vectorParams);
+            await this.qdrantClient.SearchAsync(collectionName, new float[vectorSize], 1);
         }
 
         public async Task<UpdateResult> Add(string collectionName, List<PointStruct> points)
             => await this.qdrantClient.UpsertAsync(collectionName: collectionName, points: points);
+
+        /*
+         * Search performs a vector similarity search in the specified collection.
+         */
+        public async Task<IReadOnlyList<ScoredPoint>> Search(string collectionName, float[] vector, ulong limit = 3)
+            => await this.qdrantClient.SearchAsync(collectionName: collectionName, query: vector, limit: limit);
 
         public async Task<IReadOnlyList<ScoredPoint>> Query(string collectionName, float[] vector, ulong limit = 3)
             => await this.qdrantClient.QueryAsync(collectionName: collectionName, query: vector, limit: limit);

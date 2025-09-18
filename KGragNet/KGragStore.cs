@@ -3,7 +3,7 @@
 namespace KGragNet
 {
 
-    public class KGragStore
+    public abstract class KGragStore
     {
         private KGragQDrantConfig qdrantConfig = new KGragQDrantConfig();
         private KGragGraphConfig graphConfig = new KGragGraphConfig();
@@ -63,5 +63,8 @@ namespace KGragNet
                 Graph = new KGragGraph(value);
             }
         }
+
+        // TODO: Implement this method to get embeddings from a text using an LLM model.
+        public abstract float[] GetEmbeddings(string text);
     }
 }

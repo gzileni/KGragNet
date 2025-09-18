@@ -45,7 +45,7 @@ namespace KGragNet
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during graph ingestion: {ex.Message}");
-                throw ex;
+                throw;
             }
         }
 
@@ -80,7 +80,7 @@ namespace KGragNet
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during ingestion: {ex.Message}");
-                throw ex;
+                throw;
             }
         }
 
@@ -97,12 +97,9 @@ namespace KGragNet
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during ingestion: {ex.Message}");
-                throw ex;
+                throw;
             }
         }
-
-        // TODO: Implement this method to get embeddings from a text using an LLM model.
-        public abstract float[] GetEmbeddings(string text);
 
         // TODO: Implement this method to parse text and extract nodes and relationships.
         public abstract Task<IKGragParserObject> Parser(string text);
